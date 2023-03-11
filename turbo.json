@@ -11,6 +11,15 @@
     },
     "dev": {
       "cache": false
+    },
+    "test:unit": {
+      "outputs": ["coverage/**"]
+    },
+    "test:unit-dev": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
     }
   }
 }
