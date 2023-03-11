@@ -3,7 +3,7 @@ import { env } from "./env";
 
 app.listen({ port: env.PORT }, (err, address) => {
   if (err) {
-    console.error(err);
+    app.log.error(err);
     process.exit(1);
   }
   console.log(`Server listening at ${address}`);
