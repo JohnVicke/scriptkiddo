@@ -1,9 +1,9 @@
-import { app } from "./app";
+import { server } from "./app";
 import { env } from "./env";
 
-app.listen({ port: env.PORT }, (err, address) => {
+server.listen({ port: env.PORT }, (err, address) => {
   if (err) {
-    app.log.error(err);
+    server.log.error(err);
     process.exit(1);
   }
   console.log(`Server listening at ${address}`);
