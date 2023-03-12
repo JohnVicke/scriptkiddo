@@ -1,5 +1,5 @@
 {
-  "name": "tauri",
+  "name": "@sk/tauri",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -46,6 +46,7 @@
     "@tanstack/svelte-query": "^4.26.1",
     "felte": "^1.2.7",
     "lucide-svelte": "^0.124.0",
+    "socket.io-client": "^4.6.1",
     "svelte-forms": "^2.3.1",
     "zod": "^3.21.4"
   }
