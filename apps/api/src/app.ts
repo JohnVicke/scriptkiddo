@@ -1,29 +1,40 @@
 import fastify from "fastify";
+import fastifyIO from "fastify-socket.io";
 import { drizzleFastifyPlugin } from "./db/drizzle-connector-plugin";
 import { env } from "./env";
 import { helloRoutes } from "./routes/test";
-import ws from "@fastify/websocket";
-import { websocketPlugin } from "./ws/websocket-plugin";
 
-export const app = fastify();
+export const server = fastify({ logger: true });
 
-app.register(drizzleFastifyPlugin, {
+server.register(drizzleFastifyPlugin, {
   connectionString: env.POSTGRES_CONNECTION_STRING,
 });
 
-app.register(ws, {
-  errorHandler(error, connection, request, reply) {
-    console.log(error);
-    connection.destroy();
-  },
-  options: {
-    maxPayload: 1024 * 1024,
+server.register(fastifyIO, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
   },
 });
 
-app.register(helloRoutes);
-app.register(websocketPlugin);
+server.register(helloRoutes);
 
-app.get("/*", async (_request, _reply) => {
+server.ready((err) => {
+  if (err) throw err;
+  const { io } = server;
+  io.on("connection", (socket) => {
+    console.log(`++connected, Number of connections: ${io.sockets.sockets.size}}`);
+    socket.on("disconnect", (socket) => {
+      console.log(`--disconnected, Number of connections: ${io.sockets.sockets.size}}`);
+    });
+  });
+});
+
+server.get("/emit", (_req, reply) => {
+  server.io.emit("hello", { hello: "world" });
+  reply.send({ hello: "world" });
+});
+
+server.get("/*", async (_request, _reply) => {
   return { hello: "world" };
 });
