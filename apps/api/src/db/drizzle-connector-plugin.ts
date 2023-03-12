@@ -5,6 +5,8 @@ import fp from "fastify-plugin";
 import { Pool } from "pg";
 import path from "path";
 
+let runMigration = false;
+
 interface ConnectDbOptions {
   connectionString: string;
 }
@@ -16,7 +18,8 @@ const connectDb: FastifyPluginAsync<ConnectDbOptions> = async (fastify, { connec
     });
     const db = drizzle(pool, { logger: true });
     fastify.decorate("db", db);
-    await migrate(db, { migrationsFolder: path.join(__dirname, "../../migrations") });
+    if (runMigration)
+      await migrate(db, { migrationsFolder: path.join(__dirname, "../../migrations") });
     fastify.addHook("onClose", async () => {
       await pool.end();
     });
