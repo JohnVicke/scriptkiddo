@@ -4,6 +4,8 @@ export interface MainEmitEvents {
 
 export interface MainListenEvents {
   message: (arg: string) => void;
+  joinRoom: (roomId: string) => void;
+  leaveRoom: (roomId: string) => void;
 }
 
 export interface MainServerEvents {

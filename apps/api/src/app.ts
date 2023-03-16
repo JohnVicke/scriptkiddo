@@ -41,6 +41,14 @@ server.ready((err) => {
         message,
       });
     });
+    socket.on("joinRoom", (room) => {
+      console.log("joinRoom", room);
+      socket.join(room);
+    });
+    socket.on("leaveRoom", (room) => {
+      console.log("leaveRoom", room);
+      socket.leave(room);
+    });
     socket.on("disconnect", (socket) => {
       console.log(`--disconnected, Number of connections: ${io.sockets.sockets.size}}`);
     });
