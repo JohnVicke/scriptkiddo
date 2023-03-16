@@ -13,9 +13,6 @@
     io.on("disconnect", () => {
       console.log("disconnected");
     });
-    io.on("hello", (data: any) => {
-      console.log(data);
-    });
   });
 
   onDestroy(() => {

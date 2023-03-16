@@ -7,7 +7,6 @@
 
   onMount(() => {
     io.on("message", (message) => {
-      console.log({ received: message });
       messages = [...messages, message];
     });
   });
