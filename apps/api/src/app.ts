@@ -3,6 +3,13 @@ import fastifyIO from "fastify-socket.io";
 import { drizzleFastifyPlugin } from "./db/drizzle-connector-plugin";
 import { env } from "./env";
 import { helloRoutes } from "./routes/test";
+import { Server } from "socket.io";
+import {
+  MainEmitEvents,
+  MainListenEvents,
+  MainServerEvents,
+  MainSocketData,
+} from "./types/shared/socket-io";
 
 export const server = fastify({ logger: true });
 
@@ -19,15 +26,17 @@ server.register(fastifyIO, {
 
 server.register(helloRoutes);
 
+type TypedIoServer = Server<MainListenEvents, MainEmitEvents, MainServerEvents, MainSocketData>;
+
 server.ready((err) => {
   if (err) throw err;
   const { io } = server;
-  io.on("connection", (socket) => {
+  (io as TypedIoServer).on("connection", (socket) => {
     console.log(`++connected, Number of connections: ${io.sockets.sockets.size}}`);
     const user = socket.id;
     socket.on("message", (message) => {
       console.log("received message", message, user);
-      io.emit("message", {
+      socket.emit("message", {
         from: user,
         message,
       });
