@@ -62,6 +62,7 @@ importers:
   apps/tauri:
     specifiers:
       '@rgossiaux/svelte-headlessui': ^1.0.2
+      '@sk/api': workspace:*
       '@sk/tsconfig': workspace:*
       '@sveltejs/adapter-auto': ^2.0.0
       '@sveltejs/adapter-static': 1.0.0-next.50
@@ -100,6 +101,7 @@ importers:
       svelte-forms: 2.3.1
       zod: 3.21.4
     devDependencies:
+      '@sk/api': link:../api
       '@sk/tsconfig': link:../../packages/tsconfig
       '@sveltejs/adapter-auto': 2.0.0_@sveltejs+kit@1.11.0
       '@sveltejs/adapter-static': 1.0.0-next.50_@sveltejs+kit@1.11.0
