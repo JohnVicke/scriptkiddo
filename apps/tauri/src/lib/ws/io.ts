@@ -1,6 +1,8 @@
-import ioClient from "socket.io-client";
+import ioClient, { Socket } from "socket.io-client";
+import type { MainEmitEvents, MainListenEvents } from "@sk/api/src/types/shared";
+
 const ENDPOINT = "ws://localhost:8080";
 
-const socket = ioClient(ENDPOINT);
+const socket: Socket<MainEmitEvents, MainListenEvents> = ioClient(ENDPOINT);
 
 export const io = socket;
