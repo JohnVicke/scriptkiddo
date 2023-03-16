@@ -24,6 +24,14 @@ server.ready((err) => {
   const { io } = server;
   io.on("connection", (socket) => {
     console.log(`++connected, Number of connections: ${io.sockets.sockets.size}}`);
+    const user = socket.id;
+    socket.on("message", (message) => {
+      console.log("received message", message, user);
+      io.emit("message", {
+        from: user,
+        message,
+      });
+    });
     socket.on("disconnect", (socket) => {
       console.log(`--disconnected, Number of connections: ${io.sockets.sockets.size}}`);
     });

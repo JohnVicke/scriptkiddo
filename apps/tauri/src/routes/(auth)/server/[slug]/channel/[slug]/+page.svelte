@@ -1,23 +1,23 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { onDestroy, onMount } from "svelte";
-  import { io } from "../../../../../../stores/ws/channel";
-  let message: string;
+  import { onMount } from "svelte";
+  import { io } from "../../../../../../lib/ws/io";
+
+  let messages: { message: string; from: string }[] = [];
+
   onMount(() => {
-    io.connect();
-    io.on("connect", () => {
-      console.log("connected");
-    });
-    io.on("disconnect", () => {
-      console.log("disconnected");
-    });
-    io.on("hello", (data: any) => {
-      console.log(data);
+    io.on("message", (message) => {
+      console.log({ received: message });
+      messages = [...messages, message];
     });
   });
-  onDestroy(() => {
-    io.disconnect();
-  });
+
+  let message: string;
+
+  function sendMessage() {
+    io.emit("message", message);
+    message = "";
+  }
 </script>
 
 <div>
@@ -27,9 +27,17 @@
     bind:value={message}
     on:keydown={(e) => {
       if (e.key === "Enter") {
-        console.log(message);
+        sendMessage();
       }
     }}
   />
   hello world from channel page {$page.params.slug}
+  {#each messages as message}
+    <div class="flex gap-4">
+      <b>{message.from}</b>
+      <p>
+        {message.message}
+      </p>
+    </div>
+  {/each}
 </div>
