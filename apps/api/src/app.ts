@@ -1,18 +1,26 @@
+import { clerkPlugin } from "@clerk/fastify";
 import fastify from "fastify";
 import fastifyIO from "fastify-socket.io";
+import fastifyCors from "@fastify/cors";
+import { Server } from "socket.io";
 import { drizzleFastifyPlugin } from "./db/drizzle-connector-plugin";
 import { env } from "./env";
-import { helloRoutes } from "./routes/test";
-import { Server } from "socket.io";
+import { userRouter } from "./routes/user.router";
 import {
   MainEmitEvents,
   MainListenEvents,
   MainServerEvents,
   MainSocketData,
 } from "./types/shared/socket-io";
+import { clerkOptions } from "./utils/clerk-client";
 
 export const server = fastify({ logger: true });
 
+server.register(clerkPlugin, clerkOptions);
+server.register(fastifyCors, {
+  origin: "*",
+  allowdHeaders: ["Authorization"],
+});
 server.register(drizzleFastifyPlugin, {
   connectionString: env.POSTGRES_CONNECTION_STRING,
 });
@@ -23,8 +31,6 @@ server.register(fastifyIO, {
     methods: ["GET", "POST"],
   },
 });
-
-server.register(helloRoutes);
 
 type TypedIoServer = Server<MainListenEvents, MainEmitEvents, MainServerEvents, MainSocketData>;
 
@@ -55,11 +61,13 @@ server.ready((err) => {
   });
 });
 
+server.register(userRouter, { prefix: "/api/user" });
+
 server.get("/emit", (_req, reply) => {
   server.io.emit("hello", { hello: "world" });
   reply.send({ hello: "world" });
 });
 
-server.get("/*", async (_request, _reply) => {
-  return { hello: "world" };
+server.get("/*", async (_request, reply) => {
+  reply.code(404).send({ message: "route not found" });
 });
