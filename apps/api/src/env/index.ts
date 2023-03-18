@@ -10,6 +10,8 @@ const envSchema = z.object({
   NODE_ENV: z.enum(["development", "production", "test"]),
   PORT: z.string().regex(/^\d+$/).transform(Number).default("8080"),
   POSTGRES_CONNECTION_STRING: z.string().url(),
+  CLERK_PUBLISHABLE_KEY: z.string(),
+  CLERK_SECRET_KEY: z.string(),
 });
 
 const parsed = envSchema.safeParse(process.env);
