@@ -8,10 +8,10 @@
   onMount(() => {
     io.connect();
     io.on("connect", () => {
-      console.log("IO connected");
+      console.log("connected");
     });
     io.on("disconnect", () => {
-      console.log("IO disconnected");
+      console.log("disconnected");
     });
   });
 
