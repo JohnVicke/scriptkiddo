@@ -9,6 +9,7 @@ import { userRouter } from "../modules/user/user.router";
 import { clerkPlugin } from "../plugins/clerk.plugin";
 import { drizzleFastifyPlugin } from "../plugins/drizzle-connector.plugin";
 import { getServerOptions } from "./get-server-options";
+import { serverRouter } from "../modules/server/server.router";
 
 const rootPrefix = "/api";
 
@@ -20,13 +21,16 @@ const plugins = [
   { plugin: swaggerPlugin },
 ];
 
-const routes = [{ route: userRouter, prefix: `${rootPrefix}/user` }];
+const routes = [
+  { router: userRouter, prefix: `${rootPrefix}/user` },
+  { router: serverRouter, prefix: `${rootPrefix}/server` },
+];
 
 export async function createServer() {
   const server = fastify(getServerOptions(env.NODE_ENV)).withTypeProvider<TypeBoxTypeProvider>();
 
   plugins.forEach(({ plugin, options }) => server.register(plugin, options));
-  routes.forEach(({ route, prefix }) => server.register(route, { prefix }));
+  routes.forEach(({ router, prefix }) => server.register(router, { prefix }));
 
   server.ready((err) => onServerReady(server, err));
 
