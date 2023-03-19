@@ -7,7 +7,7 @@ console.log("🔎 Loading environment variables...");
 config({ path: path.join(__dirname, "../../.env") });
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]),
+  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   PORT: z.string().regex(/^\d+$/).transform(Number).default("8080"),
   POSTGRES_CONNECTION_STRING: z.string().url(),
   CLERK_PUBLISHABLE_KEY: z.string(),
