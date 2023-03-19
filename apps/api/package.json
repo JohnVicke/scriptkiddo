@@ -11,8 +11,9 @@
     "test:unit-dev": "vitest",
     "test:unit": "vitest --run",
     "test:typecheck": "tsc --noEmit",
-    "db:migrate": "drizzle-kit generate:pg --out migrations --schema src/db/schema",
-    "db:up": "drizzle-kit up:pg --out=migrations"
+    "db:migrate": "drizzle-kit generate:pg --out migrations --schema src/db",
+    "db:up": "drizzle-kit up:pg --out=migrations",
+    "trace": "tsc --traceResolution"
   },
   "dependencies": {
     "@clerk/fastify": "^0.1.9",
