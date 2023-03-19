@@ -1,4 +1,6 @@
 import { Static, Type } from "@sinclair/typebox";
+import type { Equals, AssertFalse } from "../../types/assert-equals";
+import { User } from "./user.model";
 
 const user = Type.Object({
   id: Type.Number(),
@@ -19,3 +21,6 @@ export const createUserSchema = {
 };
 
 export type CreateUserBody = Static<typeof createUserSchema.body>;
+
+// @ts-expect-error
+type PGAndSchemaAlignment = AssertFalse<Equals<Static<typeof user>, User>>;
