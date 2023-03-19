@@ -1,6 +1,6 @@
 import { describe, it, vi, expect } from "vitest";
 import { createServer } from "../../../utils/create-server";
-import type { InsertUser, User } from "../user.model";
+import type { InsertUser, User } from "../../../db/user.model";
 import * as UserService from "../user.service";
 
 describe("POST /api/user", () => {
