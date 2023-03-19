@@ -20,7 +20,19 @@ export const createUserSchema = {
   },
 };
 
+export const getUserSchema = {
+  tags: ["user"],
+  description: "Gets a user resource",
+  params: Type.Object({
+    id: Type.Number(),
+  }),
+  response: {
+    200: user,
+  },
+};
+
 export type CreateUserBody = Static<typeof createUserSchema.body>;
+export type GetUserParams = Static<typeof getUserSchema.params>;
 
 // @ts-expect-error
 type PGAndSchemaAlignment = AssertFalse<Equals<Static<typeof user>, User>>;

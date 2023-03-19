@@ -31,3 +31,28 @@ describe("POST /api/user", () => {
     expect(createUserSpy).toBeCalledWith(payload);
   });
 });
+
+describe("GET /api/user/:id", () => {
+  it("should call getUser service", async () => {
+    const server = await createServer();
+    await server.ready();
+    const id = 1;
+
+    const user: User = {
+      id,
+      username: "virren1337",
+    };
+
+    const getUserSpy = vi.spyOn(UserService, "getUser");
+    expect(getUserSpy.getMockName()).toEqual("getUser");
+    getUserSpy.mockResolvedValue(user);
+
+    const response = await server.inject({
+      method: "GET",
+      url: "/api/user/1",
+    });
+
+    expect(response.json()).toEqual(user);
+    expect(getUserSpy).toBeCalledWith(id);
+  });
+});
