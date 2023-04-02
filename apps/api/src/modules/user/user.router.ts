@@ -6,13 +6,13 @@ export async function userRouter(fastify: FastifyInstance) {
   fastify.route({
     method: "POST",
     url: "/",
-    handler: createUserHandler,
+    handler: createUserHandler({ db: fastify.db }),
     schema: createUserSchema,
   });
   fastify.route({
     method: "GET",
     url: "/:id",
-    handler: getUserHandler,
+    handler: getUserHandler({ db: fastify.db }),
     schema: getUserSchema,
   });
 }
