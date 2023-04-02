@@ -12,7 +12,7 @@ describe("POST /api/user", () => {
       username: "virren1337",
     };
 
-    const user: User = {
+    const user = {
       id: 1,
       ...payload,
     };
@@ -38,7 +38,7 @@ describe("GET /api/user/:id", () => {
     await server.ready();
     const id = 1;
 
-    const user: User = {
+    const user = {
       id,
       username: "virren1337",
     };
