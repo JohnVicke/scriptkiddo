@@ -6,7 +6,7 @@ export async function serverRouter(fastify: FastifyInstance) {
   fastify.route({
     method: "POST",
     url: "/",
-    handler: createServerHandler,
+    handler: createServerHandler({ db: fastify.db }),
     schema: createServerSchema,
   });
 }
