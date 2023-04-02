@@ -39,4 +39,18 @@ describe("[POST] /api/server", () => {
     });
     expect(createServerSpy).toBeCalledWith(payload);
   });
+  it("should return 400 if name is missing", async () => {
+    const server = await createServer();
+    await server.ready();
+
+    const payload = {};
+
+    const response = await server.inject({
+      method: "POST",
+      url: "/api/server",
+      payload,
+    });
+
+    expect(response.statusCode).toEqual(400);
+  });
 });
