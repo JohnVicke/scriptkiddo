@@ -1,4 +1,4 @@
-import { InsertUser } from "../../db/user.model";
+import { InsertUser } from "$db/user.model";
 
 export async function createUser(userInput: InsertUser) {
   return { id: 1, ...userInput };
