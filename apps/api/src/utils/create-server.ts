@@ -10,6 +10,7 @@ import { clerkPlugin } from "../plugins/clerk.plugin";
 import { drizzleFastifyPlugin } from "../plugins/drizzle-connector.plugin";
 import { getServerOptions } from "./get-server-options";
 import { serverRouter } from "../modules/server/server.router";
+import { serverMemberRouter } from "src/modules/server-member/server-member.router";
 
 const rootPrefix = "/api";
 
@@ -24,6 +25,7 @@ const plugins = [
 const routes = [
   { router: userRouter, prefix: `${rootPrefix}/user` },
   { router: serverRouter, prefix: `${rootPrefix}/server` },
+  { router: serverMemberRouter, prefix: `${rootPrefix}/server-member` },
 ];
 
 export async function createServer() {
