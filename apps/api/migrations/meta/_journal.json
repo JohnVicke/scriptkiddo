@@ -1,13 +1,1 @@
-{
-  "version": "5",
-  "dialect": "pg",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "5",
-      "when": 1678465226265,
-      "tag": "0000_flowery_marten_broadcloak",
-      "breakpoints": false
-    }
-  ]
-}
+{"version":"5","dialect":"pg","entries":[]}

@@ -1,0 +1,1 @@
+ALTER TABLE server_member ALTER COLUMN "server_member_type" SET NOT NULL;
